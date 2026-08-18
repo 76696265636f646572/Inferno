@@ -1,0 +1,61 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.venv/
+.venv-*/
+venv/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+dist/
+build/
+
+# Node
+node_modules/
+.output/
+.data/
+.nuxt/
+.nitro/
+.cache/
+frontend/dist/
+
+# Environment and secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Databases and local runtime data
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+backend/inferno.db
+
+# Model weights (never commit GGUF files or the storage volume)
+/models/
+/backend/models/
+*.gguf
+*.gguf.part
+*.part
+
+# Logs and OS
+logs/
+*.log
+.DS_Store
+Thumbs.db
+.idea/
+.fleet/
+*.swp
+
+# Test / tooling
+.tox/
+coverage/
+
+# Docker
+docker-data/
