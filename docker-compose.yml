@@ -1,0 +1,56 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: inferno
+      POSTGRES_PASSWORD: inferno
+      POSTGRES_DB: inferno
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U inferno -d inferno"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgresql+asyncpg://inferno:inferno@postgres:5432/inferno
+      MODEL_STORAGE_PATH: /models
+      ENVIRONMENT: production
+      LOG_JSON: "true"
+      CORS_ORIGINS: http://localhost:3000
+    volumes:
+      - model_storage:/models
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NUXT_PUBLIC_API_BASE: http://localhost:8000
+        NUXT_PUBLIC_WS_BASE: ws://localhost:8000
+    environment:
+      NUXT_PUBLIC_API_BASE: http://localhost:8000
+      NUXT_PUBLIC_WS_BASE: ws://localhost:8000
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  model_storage:
+
+# GPU note: this stack is CPU-only by default. See docker/docker-compose.gpu.yml.

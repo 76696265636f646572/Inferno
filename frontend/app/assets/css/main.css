@@ -1,0 +1,26 @@
+@import "tailwindcss";
+@import "@nuxt/ui";
+
+@theme static {
+  --font-sans: 'Geist', 'IBM Plex Sans', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', 'IBM Plex Mono', ui-monospace, monospace;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+:root {
+  --inferno-ember: #f97316;
+}
+
+.dark {
+  --ui-bg: #0b0c0e;
+  --ui-bg-muted: #121417;
+  --ui-bg-elevated: #17191d;
+  --ui-bg-accented: #1e2126;
+  --ui-border: #23262c;
+}

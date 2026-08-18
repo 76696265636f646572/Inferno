@@ -1,0 +1,16 @@
+# Optional NVIDIA GPU access for the backend container.
+# Usage:
+#   docker compose -f docker-compose.yml -f docker/docker-compose.gpu.yml up --build
+#
+# llama.cpp is not bundled in Phase 0. This file only reserves the GPU device
+# so later runtime images can use it without changing the default CPU compose.
+
+services:
+  backend:
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
